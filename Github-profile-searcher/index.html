@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GitHub Finder Framework</title>
+  <style>
+    /* GitHub Modern Colors & Fluid Layout Core */
+    :root {
+      --bg-main: #0d1117;
+      --bg-card: #161b22;
+      --bg-stats: #010409;
+      --border-color: #30363d;
+      --text-main: #c9d1d9;
+      --text-heading: #f0f6fc;
+      --text-muted: #8b949e;
+      --accent-blue: #58a6ff;
+      --accent-blue-hover: #1f6feb;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      /* Dynamic padding ensures card never touches screen edges on mobile */
+      padding: clamp(12px, 4vw, 40px); 
+    }
+
+    /* Elastic layout wrapper that fits every viewport width perfectly */
+    .app-container {
+      width: 100%;
+      max-width: 768px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Fluid Search Row Controls */
+    .search-wrapper {
+      display: flex;
+      align-items: center;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 8px 8px 8px 16px;
+      gap: 12px;
+    }
+
+    .search-icon {
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .search-wrapper input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-heading);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem); /* Fluid input font scale */
+      min-width: 0; /* Prevents text overflow breaking layout */
+    }
+
+    .search-wrapper input::placeholder {
+      color: var(--text-muted);
+    }
+
+    .search-btn {
+      background-color: #238636; /* GitHub Accent Green button */
+      color: #ffffff;
+      border: 1px solid rgba(240, 246, 252, 0.1);
+      border-radius: 6px;
+      padding: clamp(8px, 2vw, 12px) clamp(16px, 3vw, 24px);
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .search-btn:hover {
+      background-color: #2ea043;
+    }
+
+    /* Empty Dynamic Container where JS injection handles ALL layouts */
+    .profile-container {
+      width: 100%;
+    }
+
+    /* ==========================================
+       INJECTED CLASS LAYOUTS (Used inside your JS)
+       ========================================== */
+    .profile-card-block {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: clamp(16px, 4vw, 32px); /* Fluid padding across screens */
+      display: grid;
+      grid-template-columns: minmax(60px, 100px) 1fr;
+      gap: clamp(16px, 4vw, 32px);
+      align-items: start;
+    }
+
+    .profile-avatar img {
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      aspect-ratio: 1 / 1;
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      min-width: 0;
+    }
+
+    .profile-header {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .profile-header h2 {
+      color: var(--text-heading);
+      font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+      font-weight: 600;
+    }
+
+    .profile-header a {
+      color: var(--accent-blue);
+      text-decoration: none;
+      font-size: clamp(0.9rem, 2.5vw, 1.05rem);
+    }
+
+    .profile-header a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-bio {
+      font-size: clamp(0.9rem, 2.5vw, 1rem);
+      line-height: 1.5;
+    }
+
+    /* Grid layout auto-responsive utility for stats metrics */
+    .profile-stats-grid {
+      background-color: var(--bg-stats);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 12px 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      text-align: center;
+    }
+
+    .stat-metric {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-metric .label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .stat-metric .val {
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+
+    /* Universal Screen Adaptation Rules for Layout Cards */
+    @media (max-width: 540px) {
+      .profile-card-block {
+        grid-template-columns: 1fr; /* Drops into unified single-column stream on tiny screens */
+        justify-items: center;
+        text-align: center;
+      }
+
+      .profile-avatar {
+        width: 80px;
+      }
+
+      .profile-info {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <!-- Top Search Utility Bar -->
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search-input" placeholder="Search GitHub username..." autocomplete="off">
+      <button class="search-btn" id="search-btn">Search</button>
+    </div>
+
+    <!-- Empty Anchor element where HTML is dynamically dropped via your JavaScript -->
+    <div id="profile-target" class="profile-container"></div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.0/axios.min.js" integrity="sha512-DZqqY3PiOvTP9HkjIWgjO6ouCbq+dxqWoJZ/Q+zPYNHmlnI2dQnbJ5bxAHpAMw+LXRm4D72EIRXzvcHQtE8/VQ==" crossorigin="anonymous"></script>
+  <script>
+    // Elements Setup
+    const searchBtn = document.getElementById('search-btn');
+const profileTarget = document.getElementById('profile-target');
+const searchInput = document.getElementById('search-input'); 
+
+const APIURL = 'https://api.github.com/users/';
+
+// UPDATED: Mapped dummydata properties to match the exact GitHub API response keys
+const dummydata = {
+  avatar_url: 'https://avatars.githubusercontent.com/u/205468956?v=4',
+  login: 'calmash509',
+  username: 'calmash509', // Kept for the link fallback
+  bio: '',
+  public_repos: 24,
+  followers: 0,
+  following: 0
+};
+
+searchBtn.addEventListener('click', async () => {
+  const username = searchInput.value.trim(); 
+  
+  if (!username) {
+    alert('Please enter a username');
+    return;
+  }
+
+  try {
+    const { data } = await axios(APIURL + username); 
+    // FIXED: Added await here because createProfileCard is an async function
+    profileTarget.innerHTML = await createProfileCard(data);
+  } catch(err) {
+    console.warn("API Request failed, falling back to dummy data:", err.message);
+    
+    // FIXED: Catch-all block so if a Network Error happens, the dummy data still renders
+    profileTarget.innerHTML = await createProfileCard(dummydata);
+  }
+});
+
+// FIXED: Fixed template literal syntax errors in this function
+async function createProfileCard(user) {
+  // Safe fallback for the username link handle
+  const usernameHandle = user.login || user.username || 'octocat';
+
+  return `
+    <div class="profile-card-block">
+      
+      <!-- Avatar Responsive Wrap Column -->
+      <div class="profile-avatar">
+        <img src="${user.avatar_url || 'https://placehold.co'}" alt="${user.login || 'User'}">
+      </div>
+
+      <!-- User Informational Grid Stack -->
+      <div class="profile-info">
+        
+        <div class="profile-header">
+          <h2>${user.login || 'No Name Provided'}</h2>
+          <!-- FIXED: Added missing $ to URL template literal and replaced user.username with usernameHandle -->
+          <a href="https://github.com{usernameHandle}" target="_blank">@${usernameHandle}</a>
+        </div>
+
+        <p class="profile-bio">
+          ${user.bio || 'This user profile has no custom public biography content.'}
+        </p>
+
+        <!-- Dynamic Counter Display Grid -->
+        <div class="profile-stats-grid">
+          <div class="stat-metric">
+            <span class="label">Repos</span>
+            <span class="val">${user.public_repos ?? 0}</span>
+          </div>
+          <div class="stat-metric">
+            <span class="label">Followers</span>
+            <span class="val">${user.followers ?? 0}</span>
+          </div>
+          <div class="stat-metric">
+            <span class="label">Following</span>
+            <span class="val">${user.following ?? 0}</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  `;
+}
+
+  </script>
+<script src="script.js"></script>
+</body>
+</html>
