@@ -1,0 +1,229 @@
+/* Color Palette Variables */
+:root {
+  --dark-green: #14291e;
+  --mid-green: #234734;
+  --light-green: #8cb89d;
+  --black: #121212;
+  --gray: #828783;
+  --light-gray: #e6e8e6;
+  --white: #ffffff;
+}
+
+/* Reset Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Full Page Wrapper Layout */
+body {
+  background-color: var(--dark-green);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+}
+
+/* Header Area */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 40px;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--white);
+}
+
+.logo span {
+  color: var(--light-green);
+  font-weight: 400;
+}
+
+.status-badge {
+  background-color: var(--mid-green);
+  color: var(--light-green);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Full Page Center Section */
+.hero-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.hero-content {
+  text-align: center;
+  max-width: 800px;
+  width: 100%;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -1px;
+  margin-bottom: 16px;
+  color: var(--white);
+}
+
+.hero-content p {
+  font-size: 1.15rem;
+  color: var(--gray);
+  max-width: 550px;
+  margin: 0 auto 40px auto;
+  line-height: 1.5;
+}
+
+/* Form Integration */
+.shortener-wrapper {
+  background-color: var(--black);
+  padding: 30px;
+  border-radius: 12px;
+  border: 1px solid var(--mid-green);
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.input-row, .result-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+input[type="url"], input[type="text"] {
+  flex: 1;
+  background-color: #1e1e1e;
+  border: 1px solid var(--mid-green);
+  border-radius: 6px;
+  padding: 16px 20px;
+  font-size: 1rem;
+  color: var(--white);
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+input[type="url"]:focus {
+  border-color: var(--light-green);
+  background-color: #242424;
+}
+
+/* Buttons */
+button {
+  padding: 0 32px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+#shorten-btn {
+  background-color: var(--light-green);
+  color: var(--dark-green);
+}
+
+#shorten-btn:hover {
+  background-color: #a4ccb4;
+}
+
+/* Output Layout Styles */
+.result-panel {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--mid-green);
+  text-align: left;
+}
+
+#short-url {
+  background-color: var(--mid-green);
+  border-color: transparent;
+  color: var(--white);
+  font-weight: 500;
+}
+
+#copy-btn {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+#copy-btn:hover {
+  background-color: var(--light-gray);
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #333;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-family: sans-serif;
+  font-size: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+  pointer-events: none; /* Prevents blocking clicks when hidden */
+}
+
+/* Class added via JavaScript to show the notification */
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* App Footer */
+.main-footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.85rem;
+  color: var(--mid-green);
+  border-top: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* Responsive UI Adjustment */
+@media (max-width: 768px) {
+  .hero-content h1 {
+      font-size: 2.5rem;
+  }
+  
+  .main-header {
+      padding: 20px;
+  }
+
+  .shortener-wrapper {
+      padding: 20px;
+  }
+
+  .input-row, .result-row {
+      flex-direction: column;
+  }
+
+  button {
+      padding: 16px;
+      width: 100%;
+  }
+}
