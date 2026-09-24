@@ -1,0 +1,95 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #121212;
+}
+
+.calculator {
+  width: 320px;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.display-container {
+  margin-bottom: 20px;
+}
+
+/* Target this input for your JS logic */
+.display {
+  width: 100%;
+  height: 70px;
+  background-color: #2d2d2d;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  text-align: right;
+  font-size: 2rem;
+  padding: 0 15px;
+  outline: none;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+button {
+  height: 60px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+/* Gray function buttons */
+.btn-func {
+  background-color: #3d3d3d;
+  color: #ffffff;
+}
+
+.btn-func:hover {
+  background-color: #4a4a4a;
+}
+
+/* Dark gray number buttons */
+.btn-num {
+  background-color: #2d2d2d;
+  color: #ffffff;
+}
+
+.btn-num:hover {
+  background-color: #383838;
+}
+
+/* Matte orange operator buttons */
+.btn-op {
+  background-color: #e67e22;
+  color: #ffffff;
+}
+
+.btn-op:hover {
+  background-color: #d35400;
+}
+
+/* Double width for the zero key */
+.btn-zero {
+  grid-column: span 2;
+}
